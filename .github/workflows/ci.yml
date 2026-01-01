@@ -1,0 +1,45 @@
+# Nombre del workflow que se verá en GitHub Actions
+name: CI Pipeline
+
+# Eventos que disparan la ejecución del pipeline
+on:
+  # Se ejecuta cuando hay un push a la rama master
+  push:
+    branches: [ "master" ]
+
+  # Se ejecuta cuando se crea o actualiza un Pull Request hacia master
+  pull_request:
+    branches: [ "master" ]
+
+# Definición de los trabajos (jobs) del workflow
+jobs:
+  # Job principal de integración continua
+  build-and-test:
+    # Sistema operativo de la máquina virtual que ejecuta el job
+    runs-on: ubuntu-latest
+
+    # Pasos que se ejecutan secuencialmente
+    steps:
+
+      # Paso 1: Clonar el repositorio en la máquina del runner
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Paso 2: Instalar la versión de .NET necesaria para el proyecto
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          # Usamos .NET 8 porque la API está desarrollada con esta versión
+          dotnet-version: '8.0.x'
+
+      # Paso 3: Restaurar dependencias NuGet
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Paso 4: Compilar la solución sin restaurar nuevamente
+      - name: Build solution
+        run: dotnet build --no-restore
+
+      # Paso 5: Ejecutar pruebas unitarias e integración
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
