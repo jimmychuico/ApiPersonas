@@ -10,16 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 //;
 
+
 var connectionString =
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? $"Server={Environment.GetEnvironmentVariable("DB_HOST")};" +
-       $"Database=PersonasDb;" +
-       $"User Id=sa;" +
-       $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};" +
-       $"TrustServerCertificate=True;";
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<AppDbContext>(options =>  options.UseSqlServer(connectionString));
 
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+//builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
 
