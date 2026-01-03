@@ -1,0 +1,13 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - docker.io
+
+runcmd:
+  - systemctl start docker
+  - systemctl enable docker
+  - usermod -aG docker azureuser
+  - docker pull jimmydoc1/apipersonas:latest
+  - docker run -d --name apipersonas -p 8081:8080 jimmydoc1/apipersonas:latest
