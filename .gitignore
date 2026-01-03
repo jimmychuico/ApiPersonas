@@ -368,6 +368,8 @@ FodyWeavers.xsd
 **/.terraform/*
 *.tfstate
 *.tfstate.*
+*.tfstate.backup
+*.log
 .terraform.lock.hcl
 crash.log
 crash.*.log

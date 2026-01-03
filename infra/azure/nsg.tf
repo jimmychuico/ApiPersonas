@@ -17,7 +17,7 @@ resource "azurerm_network_security_group" "nsg" {
 
   security_rule {
     name                       = "Allow-API-8081"
-    priority                   = 110
+    priority                   = 120
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"

@@ -3,11 +3,26 @@ package_update: true
 package_upgrade: true
 
 packages:
-  - docker.io
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
 
 runcmd:
-  - systemctl start docker
+  # Instalar Docker
+  - curl -fsSL https://get.docker.com | sh
   - systemctl enable docker
+  - systemctl start docker
   - usermod -aG docker azureuser
+
+  # Esperar a que Docker esté listo
+  - sleep 15
+
+  # Descargar imagen desde Docker Hub
   - docker pull jimmydoc1/apipersonas:latest
-  - docker run -d --name apipersonas -p 8081:8080 jimmydoc1/apipersonas:latest
+
+  # Ejecutar API Personas
+  - docker run -d \
+      --name apipersonas \
+      -p 8081:8080 \
+      jimmydoc1/apipersonas:latest
