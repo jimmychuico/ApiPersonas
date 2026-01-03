@@ -19,7 +19,7 @@ var connectionString =
        $"TrustServerCertificate=True;";
 
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString))
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
 
