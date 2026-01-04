@@ -388,3 +388,8 @@ id_rsa.pub
 .vscode/
 .DS_Store
 Thumbs.db
+
+
+# SSH keys
+id_rsa_apipersonas
+*.pem
