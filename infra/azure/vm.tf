@@ -2,7 +2,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                = "vm-apipersonas"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  size                = "Standard_B1s"
+  size                = "Standard_B2s"
   admin_username      = "azureuser"
 
   network_interface_ids = [
@@ -11,7 +11,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("id_rsa.pub")
+    public_key = file("C:/Users/Usuario/.ssh/azure_apipersonas.pub")
   }
 
   os_disk {
