@@ -5,24 +5,28 @@ package_upgrade: true
 packages:
   - ca-certificates
   - curl
-  - gnupg
-  - lsb-release
+  - apt-transport-https
 
 runcmd:
-  # Instalar Docker
   - curl -fsSL https://get.docker.com | sh
   - systemctl enable docker
   - systemctl start docker
   - usermod -aG docker azureuser
 
-  # Esperar a que Docker esté listo
-  - sleep 15
-
-  # Descargar imagen desde Docker Hub
+  - docker pull mcr.microsoft.com/mssql/server:2022-latest
   - docker pull jimmydoc1/apipersonas:latest
 
-  # Ejecutar API Personas
+  - docker run -d \
+      --name sqlserver \
+      -e ACCEPT_EULA=Y \
+      -e SA_PASSWORD=StrongPassword123! \
+      -p 1433:1433 \
+      mcr.microsoft.com/mssql/server:2022-latest
+
+  - sleep 30
+
   - docker run -d \
       --name apipersonas \
       -p 8081:8080 \
+      -e ConnectionStrings__DefaultConnection=Server=localhost;Database=PersonaDb;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=True \
       jimmydoc1/apipersonas:latest
